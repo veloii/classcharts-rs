@@ -28,7 +28,7 @@ pub struct Student {
     pub is_disabled: bool,
     pub display_two_way_communications: bool,
     pub display_absences: bool,
-    pub can_upload_attachments: bool,
+    pub can_upload_attachments: Option<bool>,
     pub display_event_badges: bool,
     pub display_avatars: bool,
     pub display_concern_submission: bool,
