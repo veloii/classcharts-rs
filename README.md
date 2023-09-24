@@ -29,7 +29,7 @@ or in your `Cargo.toml`
 ```toml
 [dependencies]
 ...
-classcharts = "1.0.3"
+classcharts = "latest"
 ```
 
 ## Usage

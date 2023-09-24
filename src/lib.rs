@@ -73,14 +73,11 @@
 //! ## `ErrorResponse` enum
 //!
 //! This will be either:
-//!     * `GenericClientError` - reqwest:Error 
-//!     * `TextParsingError` - reqwest:Error 
-//!     * `SerdeJsonParsingError` - serde_json::Error 
-//!     * `ClassChartsStatusError` - This will occur when the ClassCharts API returns a non `{
-//!     success: 1 }` with no error message attribute
-//!     * `ClassChartsError` - Similar to `ClassChartsStatusError`, but it includes the error
-//!     message attribute ClassCharts returned
-//!
+//! * `GenericClientError` - reqwest:Error 
+//! * `TextParsingError` - reqwest:Error 
+//! * `SerdeJsonParsingError` - serde_json::Error 
+//! * `ClassChartsStatusError` - This will occur when the ClassCharts API returns a non `{ success: 1 }` with no error message attribute
+//! * `ClassChartsError` - Similar to `ClassChartsStatusError`, but it includes the error message attribute ClassCharts returned
 
 mod client;
 mod macros;
