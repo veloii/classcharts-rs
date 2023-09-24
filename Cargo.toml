@@ -7,7 +7,6 @@ keywords = ["api", "education", "http"]
 categories = ["web-programming::http-client"]
 include = ["/src", "LICENSE", "/examples"]
 exclude = [".*", "/images"]
-publish = ["classcharts"]
 repository = "https://github.com/veloii/classcharts-rs/"
 documentation = "https://cc.veloi.me/"
 description = "Unoffical classcharts library for rust."
