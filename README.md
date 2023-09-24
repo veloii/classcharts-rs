@@ -41,6 +41,15 @@ cd classcharts-rs
 cargo test
 ```
 
+## Still confused?
+
+Try running our basic example code, you'll need a ClassCharts Code (supplied by your school).
+
+```bash
+git clone git@github.com:veloii/classcharts-rs.git
+cd classcharts-rs && cargo run --example basic
+```
+
 ## Credits
 
 - I used the type definitions from [classchartsapi/classcharts-api-js](https://github.com/classchartsapi/classcharts-api-js) to create `structs`/`enums`.
