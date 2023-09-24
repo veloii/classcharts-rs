@@ -1,7 +1,6 @@
-<br />
 <div align="center">
-  <h1 align="center">Unoffical ClassCharts for Rust</h1>
-
+  <h3 align="center">Unoffical ClassCharts for Rust</h1>
+  
   <p align="center">
     An unoffical Student ClassCharts API library, built with Rust.
     <br />
