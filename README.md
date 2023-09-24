@@ -33,6 +33,11 @@ classcharts = "1.0.0"
 
 Wondering how to use the library? Use the [examples/basic.rs](https://github.com/veloii/classcharts-rs/blob/main/examples/basic.rs) as a reference.
 
+```bash
+git clone git@github.com:veloii/classcharts-rs.git
+cd classcharts-rs && cargo run --example basic
+```
+
 ## Developing
 
 ```bash
@@ -41,15 +46,6 @@ cd classcharts-rs
 ```
 ```bash
 cargo test
-```
-
-## Still confused?
-
-Try running our basic example code, you'll need a ClassCharts Code (supplied by your school).
-
-```bash
-git clone git@github.com:veloii/classcharts-rs.git
-cd classcharts-rs && cargo run --example basic
 ```
 
 ## Credits
