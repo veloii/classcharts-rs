@@ -1,14 +1,3 @@
-<a name="readme-top"></a>
-<div align="center">
-    [![Contributors][contributors-shield]][contributors-url]
-    [![Forks][forks-shield]][forks-url]
-    [![Stargazers][stars-shield]][stars-url]
-    [![Issues][issues-shield]][issues-url]
-    [![MIT License][license-shield]][license-url]
-</div>
-
-
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <h3 align="center">Unoffical ClassCharts for Rust</h3>
