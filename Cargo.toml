@@ -2,6 +2,15 @@
 name = "classcharts"
 version = "1.0.0"
 edition = "2021"
+license = "MIT"
+keywords = ["api", "education", "http"]
+categories = ["web-programming::http-client"]
+include = ["/src", "LICENSE", "/examples"]
+exclude = [".*"]
+publish = ["classcharts"]
+repository = "https://github.com/veloii/classcharts-rs/"
+documentation = "https://cc.veloi.me/"
+description = "Unoffical classcharts library for rust."
 
 [dependencies]
 serde_json = "1.0"
