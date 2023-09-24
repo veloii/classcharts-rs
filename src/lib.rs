@@ -36,7 +36,7 @@
 //! # #[tokio::main]
 //! # async fn main() {
 //! # let mut client = Client::create("your access code", "your date of birth
-//! (DD/MM/YYYY)", None).await.unwrap();
+//! # (DD/MM/YYYY)", None).await.unwrap();
 //! let homework = client.get_homeworks(None).await.unwrap();
 //! # }
 //! ```

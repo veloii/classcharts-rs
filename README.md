@@ -29,7 +29,7 @@ or in your `Cargo.toml`
 ```toml
 [dependencies]
 ...
-classcharts = "1.0.1"
+classcharts = "1.0.2"
 ```
 
 Use the [examples/basic.rs](https://github.com/veloii/classcharts-rs/blob/main/examples/basic.rs) as a reference.
