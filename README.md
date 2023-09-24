@@ -1,5 +1,5 @@
 <div align="center">
-  <h2 align="center">Unoffical ClassCharts for Rust</h2>
+  <h2 align="center">Unoffical ClassCharts Library for Rust</h2>
   
   <p align="center">
     An unoffical Student ClassCharts API library, built with Rust.
