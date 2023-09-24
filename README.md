@@ -20,7 +20,7 @@
 
 An API wrapper with *mostly* proper typings and tests for ClassCharts.
 
-## Using as a library
+## Usage
 ```bash
 cargo add classcharts
 ```
@@ -30,6 +30,8 @@ or in your `Cargo.toml`
 ...
 classcharts = "1.0.0"
 ```
+
+Wondering how to use the library? Use the [examples/basic.rs](https://github.com/veloii/classcharts-rs/blob/main/examples/basic.rs) as a reference.
 
 ## Developing
 
