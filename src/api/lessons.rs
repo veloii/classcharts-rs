@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use serde::Deserialize;
 
 use crate::{
-    client::{ApiRequestError, CCParser, CCResponse, Client},
+    client::{ErrorResponse, CCParser, SuccessResponse, Client},
     new_params,
 };
 
@@ -36,10 +36,13 @@ pub struct LessonsMeta {
 
 pub type LessonsData = Vec<Lesson>;
 
-pub type Lessons = CCResponse<LessonsData, LessonsMeta>;
+pub type Lessons = SuccessResponse<LessonsData, LessonsMeta>;
 
 impl Client {
-    pub async fn get_lessons(&mut self, date: NaiveDate) -> Result<Lessons, ApiRequestError> {
+    /*
+    * Gets the current student's lessons for a given date 
+    */
+    pub async fn get_lessons(&mut self, date: NaiveDate) -> Result<Lessons, ErrorResponse> {
         let params = new_params!("date", &date.format("%Y-%m-%d").to_string());
 
         let request = self

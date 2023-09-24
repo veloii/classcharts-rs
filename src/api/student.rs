@@ -1,5 +1,5 @@
 use crate::{
-    client::{ApiRequestError, CCParser, CCResponse, Client},
+    client::{ErrorResponse, CCParser, SuccessResponse, Client},
     new_params,
 };
 use serde::Deserialize;
@@ -54,10 +54,13 @@ pub struct StudentInfoMeta {
     pub version: String,
 }
 
-pub type StudentInfo = CCResponse<StudentInfoData, StudentInfoMeta>;
+pub type StudentInfo = SuccessResponse<StudentInfoData, StudentInfoMeta>;
 
 impl Client {
-    pub async fn get_student_info(&mut self) -> Result<StudentInfo, ApiRequestError> {
+    /*
+    * Gets general information about the current student
+    */
+    pub async fn get_student_info(&mut self) -> Result<StudentInfo, ErrorResponse> {
         let params = new_params!("include_data", "true");
 
         let request = self

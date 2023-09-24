@@ -2,7 +2,7 @@ use serde::Deserialize;
 use serde_json::Value;
 
 use crate::api::helpers::deserialize_yes_no_bool;
-use crate::client::{ApiRequestError, CCParser, CCResponse, Client};
+use crate::client::{ErrorResponse, CCParser, SuccessResponse, Client};
 
 use super::helpers::Empty;
 
@@ -55,7 +55,7 @@ pub struct RewardsMeta {
 
 pub type RewardsData = Vec<RewardItem>;
 
-pub type Rewards = CCResponse<RewardsData, RewardsMeta>;
+pub type Rewards = SuccessResponse<RewardsData, RewardsMeta>;
 
 #[derive(Deserialize, Debug)]
 pub struct RewardPurchaseData {
@@ -67,10 +67,13 @@ pub struct RewardPurchaseData {
 
 pub type RewardPurchaseMeta = Vec<Empty>;
 
-pub type RewardPurchase = CCResponse<RewardPurchaseData, RewardPurchaseMeta>;
+pub type RewardPurchase = SuccessResponse<RewardPurchaseData, RewardPurchaseMeta>;
 
 impl Client {
-    pub async fn get_rewards(&mut self) -> Result<Rewards, ApiRequestError> {
+    /*
+    * Gets the available items in the current student's rewards shop
+    */
+    pub async fn get_rewards(&mut self) -> Result<Rewards, ErrorResponse> {
         let request = self
             .build_get(format!("/rewards/{}", self.student_id))
             .await?
@@ -83,10 +86,13 @@ impl Client {
         return Ok(data);
     }
 
+    /*
+    * Purchase a reward item from the current student's rewards shop
+    */
     pub async fn purchase_reward<T>(
         &mut self,
         item_id: T,
-    ) -> Result<RewardPurchase, ApiRequestError>
+    ) -> Result<RewardPurchase, ErrorResponse>
     where
         T: std::fmt::Display,
     {
@@ -98,8 +104,8 @@ impl Client {
             .await?;
 
         let text = request.cc_parse().await.map_err(|err| {
-            if let ApiRequestError::SerdeJsonParsingError(_err) = err {
-                return ApiRequestError::ClassChartsError(
+            if let ErrorResponse::SerdeJsonParsingError(_err) = err {
+                return ErrorResponse::ClassChartsError(
                     0,
                     "Internal Server Error, the item may not exist.".to_string(),
                 );

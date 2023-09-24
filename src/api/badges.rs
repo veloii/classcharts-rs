@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use crate::client::{ApiRequestError, CCParser, CCResponse, Client};
+use crate::client::{ErrorResponse, CCParser, SuccessResponse, Client};
 
 use super::helpers::Empty;
 
@@ -45,10 +45,13 @@ pub struct Badge {
 
 pub type BadgesData = Vec<Badge>;
 pub type BadgesMeta = Vec<Empty>;
-pub type Badges = CCResponse<BadgesData, BadgesMeta>;
+pub type Badges = SuccessResponse<BadgesData, BadgesMeta>;
 
 impl Client {
-    pub async fn get_badges(&mut self) -> Result<Badges, ApiRequestError> {
+    /*
+    * Gets the current student's earned badges 
+    */
+    pub async fn get_badges(&mut self) -> Result<Badges, ErrorResponse> {
         let request = self
             .build_get(format!("/eventbadges/{}", self.student_id))
             .await?

@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::client::{ApiRequestError, CCParser, CCResponse, Client};
+use crate::client::{ErrorResponse, CCParser, SuccessResponse, Client};
 use chrono::NaiveDate;
 use serde::Deserialize;
 use serde_json::Value;
@@ -62,7 +62,7 @@ pub struct BehaviourMeta {
     pub step_size: String,
 }
 
-pub type Behaviour = CCResponse<BehaviourData, BehaviourMeta>;
+pub type Behaviour = SuccessResponse<BehaviourData, BehaviourMeta>;
 
 pub struct BehaviourOptions {
     pub from: Option<NaiveDate>,
@@ -70,10 +70,13 @@ pub struct BehaviourOptions {
 }
 
 impl Client {
+    /*
+    * Gets the current student's behaviour 
+    */
     pub async fn get_behaviour(
         &mut self,
         options: Option<BehaviourOptions>,
-    ) -> Result<Behaviour, ApiRequestError> {
+    ) -> Result<Behaviour, ErrorResponse> {
         let mut params = url::form_urlencoded::Serializer::new(String::new());
 
         if let Some(options) = options {

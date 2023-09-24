@@ -1,5 +1,5 @@
 use crate::api::helpers::deserialize_yes_no_bool;
-use crate::client::{ApiRequestError, CCParser, CCResponse, Client};
+use crate::client::{ErrorResponse, CCParser, SuccessResponse, Client};
 use chrono::NaiveDate;
 use serde::Deserialize;
 use serde_json::Value;
@@ -87,13 +87,16 @@ pub struct HomeworkMeta {
 
 pub type HomeworkData = Vec<Homework>;
 
-pub type Homeworks = CCResponse<HomeworkData, HomeworkMeta>;
+pub type Homeworks = SuccessResponse<HomeworkData, HomeworkMeta>;
 
 impl Client {
+    /*
+    * Gets the current student's homework 
+    */
     pub async fn get_homeworks(
         &mut self,
         options: Option<HomeworkOptions>,
-    ) -> Result<Homeworks, ApiRequestError> {
+    ) -> Result<Homeworks, ErrorResponse> {
         let mut params = url::form_urlencoded::Serializer::new(String::new());
 
         if let Some(options) = options {

@@ -1,6 +1,6 @@
 use crate::{
     api::helpers::deserialize_yes_no_bool,
-    client::{ApiRequestError, CCParser, CCResponse, Client},
+    client::{ErrorResponse, CCParser, SuccessResponse, Client},
 };
 use serde::Deserialize;
 
@@ -88,10 +88,13 @@ pub struct DetentionsMeta {
     pub detention_alias_plural: String,
 }
 
-pub type Detentions = CCResponse<DetentionsData, DetentionsMeta>;
+pub type Detentions = SuccessResponse<DetentionsData, DetentionsMeta>;
 
 impl Client {
-    pub async fn get_detentions(&mut self) -> Result<Detentions, ApiRequestError> {
+    /*
+    * Gets the current student's detentions 
+    */
+    pub async fn get_detentions(&mut self) -> Result<Detentions, ErrorResponse> {
         let request = self
             .build_get(format!("/detentions/{}", self.student_id))
             .await?

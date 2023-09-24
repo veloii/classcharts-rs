@@ -1,6 +1,6 @@
 use crate::{
     api::helpers::deserialize_yes_no_bool,
-    client::{ApiRequestError, CCParser, CCResponse, Client},
+    client::{ErrorResponse, CCParser, SuccessResponse, Client},
 };
 use serde::Deserialize;
 use serde_json::Value;
@@ -48,10 +48,13 @@ pub struct Announcement {
 pub type AnnouncementsMeta = Vec<Empty>;
 pub type AnnouncementsData = Vec<Announcement>;
 
-pub type Announcements = CCResponse<AnnouncementsData, AnnouncementsMeta>;
+pub type Announcements = SuccessResponse<AnnouncementsData, AnnouncementsMeta>;
 
 impl Client {
-    pub async fn get_announcements(&mut self) -> Result<Announcements, ApiRequestError> {
+    /*
+    * Gets the current student's announcements 
+    */
+    pub async fn get_announcements(&mut self) -> Result<Announcements, ErrorResponse> {
         let request = self
             .build_get(format!("/announcements/{}", self.student_id))
             .await?

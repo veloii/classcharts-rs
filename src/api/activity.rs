@@ -1,4 +1,4 @@
-use crate::client::{ApiRequestError, CCParser, CCResponse, Client};
+use crate::client::{ErrorResponse, CCParser, SuccessResponse, Client};
 use chrono::NaiveDate;
 use serde::Deserialize;
 use serde_json::Value;
@@ -69,7 +69,7 @@ pub struct ActivityMeta {
     pub detention_alias_uc: String,
 }
 
-pub type Activity = CCResponse<ActivityData, ActivityMeta>;
+pub type Activity = SuccessResponse<ActivityData, ActivityMeta>;
 
 pub struct ActivityOptions {
     pub from: Option<NaiveDate>,
@@ -83,10 +83,14 @@ pub struct FullActivityOptions {
 }
 
 impl Client {
+    /*
+    * Gets the current student's activity 
+    *
+    * This function is only used for pagination, you likely want .get_full_activity */
     pub async fn get_activity(
         &mut self,
         options: Option<ActivityOptions>,
-    ) -> Result<Activity, ApiRequestError> {
+    ) -> Result<Activity, ErrorResponse> {
         let mut params = url::form_urlencoded::Serializer::new(String::new());
 
         if let Some(options) = options {
@@ -115,10 +119,15 @@ impl Client {
         return Ok(data);
     }
 
+    /*
+    * Gets the current student's activity between two dates
+    *
+    * This function will automatically paginate through all the data returned by get_activity 
+    */
     pub async fn get_full_activity(
         &mut self,
         options: FullActivityOptions,
-    ) -> Result<ActivityData, ApiRequestError> {
+    ) -> Result<ActivityData, ErrorResponse> {
         let mut data: ActivityData = vec![];
         let mut prev_last: Option<String> = None;
 

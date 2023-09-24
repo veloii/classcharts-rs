@@ -1,4 +1,4 @@
-use crate::client::{ApiRequestError, CCParser, CCResponse, Client};
+use crate::client::{ErrorResponse, CCParser, SuccessResponse, Client};
 use std::collections::HashMap;
 
 use chrono::NaiveDate;
@@ -63,13 +63,16 @@ pub struct AttendanceMeta {
 
 pub type AttendanceData = HashMap<String, HashMap<String, AttendancePeriod>>;
 
-pub type Attendance = CCResponse<AttendanceData, AttendanceMeta>;
+pub type Attendance = SuccessResponse<AttendanceData, AttendanceMeta>;
 
 impl Client {
+    /*
+    * Gets the current student's attendance 
+    */
     pub async fn get_attendance(
         &mut self,
         options: Option<AttendanceOptions>,
-    ) -> Result<Attendance, ApiRequestError> {
+    ) -> Result<Attendance, ErrorResponse> {
         let mut params = url::form_urlencoded::Serializer::new(String::new());
 
         if let Some(options) = options {

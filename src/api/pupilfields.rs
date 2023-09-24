@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-use crate::client::{ApiRequestError, CCParser, CCResponse, Client};
+use crate::client::{ErrorResponse, CCParser, SuccessResponse, Client};
 
 use super::helpers::Empty;
 
@@ -20,10 +20,13 @@ pub struct PupilFieldsData {
 
 pub type PupilFieldsMeta = Vec<Empty>;
 
-pub type PupilFields = CCResponse<PupilFieldsData, PupilFieldsMeta>;
+pub type PupilFields = SuccessResponse<PupilFieldsData, PupilFieldsMeta>;
 
 impl Client {
-    pub async fn get_pupilfields(&mut self) -> Result<PupilFields, ApiRequestError> {
+    /*
+    * Gets the current student's pupil fields 
+    */
+    pub async fn get_pupilfields(&mut self) -> Result<PupilFields, ErrorResponse> {
         let request = self
             .build_get(format!("/customfields/{}", self.student_id))
             .await?

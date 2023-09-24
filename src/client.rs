@@ -30,7 +30,7 @@ pub struct CCStatusResponse {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct CCResponse<Data, Meta> {
+pub struct SuccessResponse<Data, Meta> {
     pub data: Data,
     pub meta: Meta,
 }
@@ -55,7 +55,7 @@ pub enum ClientCreationError {
     StringParseError(#[from] ToStrError),
 
     #[error("Failed to get student info, error: {0}")]
-    ApiRequestError(#[from] ApiRequestError),
+    ApiRequestError(#[from] ErrorResponse),
 
     #[error("Failed to decode the cookie")]
     StringDecodingError(#[from] FromUtf8Error),
@@ -63,11 +63,11 @@ pub enum ClientCreationError {
 
 #[async_trait]
 pub trait CCParser {
-    async fn cc_parse(self) -> Result<String, ApiRequestError>;
+    async fn cc_parse(self) -> Result<String, ErrorResponse>;
 }
 
 #[derive(thiserror::Error, Debug)]
-pub enum ApiRequestError {
+pub enum ErrorResponse {
     #[error("Failed to process the request")]
     GenericClientError(#[from] reqwest::Error),
 
@@ -89,23 +89,23 @@ pub struct SessionMeta {
     pub session_id: String,
 }
 
-pub type Session = CCResponse<StudentInfoData, SessionMeta>;
+pub type Session = SuccessResponse<StudentInfoData, SessionMeta>;
 
 #[async_trait]
 impl CCParser for Response {
-    async fn cc_parse(mut self) -> Result<String, ApiRequestError> {
+    async fn cc_parse(mut self) -> Result<String, ErrorResponse> {
         let text = self
             .text()
             .await
-            .map_err(ApiRequestError::TextParsingError)?;
+            .map_err(ErrorResponse::TextParsingError)?;
 
         let json = serde_json::from_str::<CCStatusResponse>(&text)?;
 
         if json.success != 1 {
             if let Some(error) = json.error {
-                return Err(ApiRequestError::ClassChartsError(json.success, error));
+                return Err(ErrorResponse::ClassChartsError(json.success, error));
             } else {
-                return Err(ApiRequestError::ClassChartsStatusError(json.success));
+                return Err(ErrorResponse::ClassChartsStatusError(json.success));
             }
         }
 
@@ -114,7 +114,7 @@ impl CCParser for Response {
 }
 
 impl Client {
-    pub async fn build_get<P>(&mut self, path: P) -> Result<RequestBuilder, ApiRequestError>
+    pub async fn build_get<P>(&mut self, path: P) -> Result<RequestBuilder, ErrorResponse>
     where
         P: IntoUrl + std::fmt::Display,
     {
@@ -129,7 +129,7 @@ impl Client {
             .header("Authorization", format!("Basic {}", self.session_id)));
     }
 
-    pub async fn build_post<P>(&mut self, path: P) -> Result<RequestBuilder, ApiRequestError>
+    pub async fn build_post<P>(&mut self, path: P) -> Result<RequestBuilder, ErrorResponse>
     where
         P: IntoUrl + std::fmt::Display,
     {
@@ -144,7 +144,7 @@ impl Client {
             .header("Authorization", format!("Basic {}", self.session_id)));
     }
 
-    pub async fn get_new_session_id(&mut self) -> Result<String, ApiRequestError> {
+    pub async fn get_new_session_id(&mut self) -> Result<String, ErrorResponse> {
         let params = new_params!("include_data", "true");
 
         let request = self
