@@ -19,6 +19,7 @@
 ## What is this?
 
 An API wrapper with *mostly* proper typings and tests for ClassCharts.
+Looking for a more complete guide? [Look at the docs.](https://cc.veloi.me)
 
 ## Usage
 ```bash
@@ -31,7 +32,7 @@ or in your `Cargo.toml`
 classcharts = "1.0.0"
 ```
 
-Wondering how to use the library? Use the [examples/basic.rs](https://github.com/veloii/classcharts-rs/blob/main/examples/basic.rs) as a reference.
+Use the [examples/basic.rs](https://github.com/veloii/classcharts-rs/blob/main/examples/basic.rs) as a reference.
 
 ```bash
 git clone git@github.com:veloii/classcharts-rs.git
