@@ -90,15 +90,26 @@ pub type HomeworkData = Vec<Homework>;
 pub type Homeworks = SuccessResponse<HomeworkData, HomeworkMeta>;
 
 impl Client {
-    /*
-    * Gets the current student's homework 
-    */
+    /// Gets the current student's homework 
+    /// This is using `chrono` for parsing the date.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// // Gets homework due in from the current day till the next day.
+    /// client.get_homework(Some(
+    ///     HomeworkOptions {
+    ///         display_date: Some(DisplayDate::DueDate),
+    ///         from: Some(chrono::Utc::now().date()),
+    ///         to: Some(chrono::Utc::now().checked_add_days(chrono::Days(1)).date()),
+    ///     }
+    /// ));
+    /// ```
     pub async fn get_homeworks(
         &mut self,
         options: Option<HomeworkOptions>,
     ) -> Result<Homeworks, ErrorResponse> {
         let mut params = url::form_urlencoded::Serializer::new(String::new());
-
+ 
         if let Some(options) = options {
             if let Some(to) = options.to {
                 params.append_pair("to", &to.format("%Y-%m-%d").to_string());

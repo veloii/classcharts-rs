@@ -57,9 +57,7 @@ pub struct StudentInfoMeta {
 pub type StudentInfo = SuccessResponse<StudentInfoData, StudentInfoMeta>;
 
 impl Client {
-    /*
-    * Gets general information about the current student
-    */
+    /// Gets general information about the current student.
     pub async fn get_student_info(&mut self) -> Result<StudentInfo, ErrorResponse> {
         let params = new_params!("include_data", "true");
 

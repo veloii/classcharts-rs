@@ -39,11 +39,16 @@ pub type LessonsData = Vec<Lesson>;
 pub type Lessons = SuccessResponse<LessonsData, LessonsMeta>;
 
 impl Client {
-    /*
-    * Gets the current student's lessons for a given date 
-    */
+    /// Gets the current student's lessons for a given date.
+    /// This is using `chrono` for parsing the date.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// // Gets the student's lessons for the current day. 
+    /// client.get_lessons(chrono::Utc::now().date());
+    /// ```
     pub async fn get_lessons(&mut self, date: NaiveDate) -> Result<Lessons, ErrorResponse> {
-        let params = new_params!("date", &date.format("%Y-%m-%d").to_string());
+        let params = new_params!("date", &date.format("%Y-%m-%d").to_string()); 
 
         let request = self
             .build_get(format!("/timetable/{}?{}", self.student_id, params))

@@ -66,9 +66,19 @@ pub type AttendanceData = HashMap<String, HashMap<String, AttendancePeriod>>;
 pub type Attendance = SuccessResponse<AttendanceData, AttendanceMeta>;
 
 impl Client {
-    /*
-    * Gets the current student's attendance 
-    */
+    /// Gets the current student's attendance 
+    /// This is using `chrono` for parsing the date.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// // Gets attendance from yesterday day to today.
+    /// client.get_attendance(Some(
+    ///     AttendanceOptions {
+    ///         from: chrono::Utc::now().checked_sub_days(chrono::Days(1)).date(),
+    ///         to: chrono::Utc::now().date(),
+    ///     }
+    /// ));
+    /// ```
     pub async fn get_attendance(
         &mut self,
         options: Option<AttendanceOptions>,

@@ -91,9 +91,7 @@ pub struct DetentionsMeta {
 pub type Detentions = SuccessResponse<DetentionsData, DetentionsMeta>;
 
 impl Client {
-    /*
-    * Gets the current student's detentions 
-    */
+    /// Gets the current student's detentions. 
     pub async fn get_detentions(&mut self) -> Result<Detentions, ErrorResponse> {
         let request = self
             .build_get(format!("/detentions/{}", self.student_id))

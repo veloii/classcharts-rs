@@ -1,3 +1,4 @@
+/// A very simple macro to create a url encoded form
 #[macro_export]
 macro_rules! new_params {
     ($($key:expr, $value:expr),*) => {

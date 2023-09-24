@@ -23,9 +23,7 @@ pub type PupilFieldsMeta = Vec<Empty>;
 pub type PupilFields = SuccessResponse<PupilFieldsData, PupilFieldsMeta>;
 
 impl Client {
-    /*
-    * Gets the current student's pupil fields 
-    */
+    /// Gets the current student's pupil fields. 
     pub async fn get_pupilfields(&mut self) -> Result<PupilFields, ErrorResponse> {
         let request = self
             .build_get(format!("/customfields/{}", self.student_id))

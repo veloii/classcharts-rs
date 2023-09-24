@@ -48,9 +48,7 @@ pub type BadgesMeta = Vec<Empty>;
 pub type Badges = SuccessResponse<BadgesData, BadgesMeta>;
 
 impl Client {
-    /*
-    * Gets the current student's earned badges 
-    */
+    /// Gets the current student's earned badges 
     pub async fn get_badges(&mut self) -> Result<Badges, ErrorResponse> {
         let request = self
             .build_get(format!("/eventbadges/{}", self.student_id))

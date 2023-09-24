@@ -83,10 +83,21 @@ pub struct FullActivityOptions {
 }
 
 impl Client {
-    /*
-    * Gets the current student's activity 
-    *
-    * This function is only used for pagination, you likely want .get_full_activity */
+    /// Gets the current student's activity 
+    /// This function is only used for pagination, you likely want `get_full_activity`.
+    /// This is using `chrono` for parsing the date.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// // Gets paginated activity from yesterday to today.
+    /// client.get_activity(Some(
+    ///     ActivityOptions {
+    ///         from: chrono::Utc::now().checked_sub_days(chrono::Days(1)).date(),
+    ///         to: chrono::Utc::now().date(),
+    ///         last_id: None,
+    ///     }
+    /// ));
+    /// ```
     pub async fn get_activity(
         &mut self,
         options: Option<ActivityOptions>,
@@ -119,11 +130,20 @@ impl Client {
         return Ok(data);
     }
 
-    /*
-    * Gets the current student's activity between two dates
-    *
-    * This function will automatically paginate through all the data returned by get_activity 
-    */
+    /// Gets the current student's activity between two dates
+    /// This function will automatically paginate through all the data returned by get_activity 
+    /// This is using `chrono` for parsing the date.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// // Gets all activity from yesterday to today.
+    /// client.get_full_activity(
+    ///     FullActivityOptions {
+    ///         from: chrono::Utc::now().checked_sub_days(chrono::Days(1)).date(),
+    ///         to: chrono::Utc::now().date()
+    ///     }
+    /// );
+    /// ```
     pub async fn get_full_activity(
         &mut self,
         options: FullActivityOptions,

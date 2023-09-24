@@ -70,9 +70,7 @@ pub type RewardPurchaseMeta = Vec<Empty>;
 pub type RewardPurchase = SuccessResponse<RewardPurchaseData, RewardPurchaseMeta>;
 
 impl Client {
-    /*
-    * Gets the available items in the current student's rewards shop
-    */
+    /// Gets the available items in the current student's rewards shop.
     pub async fn get_rewards(&mut self) -> Result<Rewards, ErrorResponse> {
         let request = self
             .build_get(format!("/rewards/{}", self.student_id))
@@ -86,9 +84,8 @@ impl Client {
         return Ok(data);
     }
 
-    /*
-    * Purchase a reward item from the current student's rewards shop
-    */
+    /// Purchase a reward item from the current student's rewards shop.
+    /// The `item_id` should be an integer and can be grabbed from the `get_rewards` method.
     pub async fn purchase_reward<T>(
         &mut self,
         item_id: T,

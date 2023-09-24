@@ -93,6 +93,20 @@ pub type Session = SuccessResponse<StudentInfoData, SessionMeta>;
 
 #[async_trait]
 impl CCParser for Response {
+    /// Parses a reqwest::Response against ClassCharts API "spec".
+    /// If ClassCharts does not return a `{ success: 1 }` then it will return:
+    /// ErrorResponse::ClassChartsError or ErrorResponse::ClassChartsStatusError
+    /// Returns the text so you can parse it with serde_json for the specific endpoint.
+    ///
+    /// Example:
+    ///
+    /// ```ignore
+    /// let sample_request = reqwest::get("some classcharts endpoint").send().await?;
+    /// let text = sample_reqest.cc_parse().await?;
+    ///
+    /// // json parsing logic using `text`
+    /// let json = ...
+    /// ```
     async fn cc_parse(mut self) -> Result<String, ErrorResponse> {
         let text = self
             .text()
@@ -114,6 +128,20 @@ impl CCParser for Response {
 }
 
 impl Client {
+    /// Builds a get reqwest, injecting ClassCharts Authorization cookies and headers. 
+    /// The url is formed by appending `/apiv2student` to the `base_url` set on the client and then
+    /// appending the path you set onto that.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// let request = client
+    ///     .build_get("/endpoint")
+    ///     .await?
+    ///     .send()
+    ///     .await?;
+    /// ```
+    ///
+    /// For `POST` requests use `.build_post`.
     pub async fn build_get<P>(&mut self, path: P) -> Result<RequestBuilder, ErrorResponse>
     where
         P: IntoUrl + std::fmt::Display,
@@ -129,6 +157,20 @@ impl Client {
             .header("Authorization", format!("Basic {}", self.session_id)));
     }
 
+    /// Builds a post reqwest, injecting ClassCharts Authorization cookies and headers. 
+    /// The url is formed by appending `/apiv2student` to the `base_url` set on the client and then
+    /// appending the path you set onto that.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// let request = client
+    ///     .build_post("/endpoint")
+    ///     .await?
+    ///     .send()
+    ///     .await?;
+    /// ```
+    ///
+    /// For `GET` requests use `.build_post`.
     pub async fn build_post<P>(&mut self, path: P) -> Result<RequestBuilder, ErrorResponse>
     where
         P: IntoUrl + std::fmt::Display,
@@ -144,6 +186,9 @@ impl Client {
             .header("Authorization", format!("Basic {}", self.session_id)));
     }
 
+    /// Get's a new `session_id` from ClassCharts. It does two things:
+    /// - Returns this id 
+    /// - Sets the `session_id` and `last_session_id_updated` properties on self.
     pub async fn get_new_session_id(&mut self) -> Result<String, ErrorResponse> {
         let params = new_params!("include_data", "true");
 
@@ -171,6 +216,8 @@ impl Client {
         return Ok(session_id);
     }
 
+    /// This should be used **very** rarely and is only implimented for testing the library with
+    /// custom fields.
     pub fn manual_creation(
         student_id: String,
         base_url: String,
@@ -190,6 +237,20 @@ impl Client {
         };
     }
 
+    /// This creates a ClassCharts Student Client. It accepts a `code`, `dob` (Date of birth) and an
+    /// optional `base_url`, which should **rarely** be used and is only implimented for testing.
+    ///
+    /// The `dob` parameter should be in the format of `DD/MM/YYYY`.
+    ///
+    /// Example:
+    /// ```rust,no_run
+    /// use classcharts::Client;
+    /// # #[tokio::main]
+    /// # async fn main() {
+    /// let mut client = Client::create("your access code", "your date of birth
+    /// (DD/MM/YYYY)", None).await.unwrap();
+    /// # }
+    /// ```
     pub async fn create<C, D>(
         code: C,
         dob: D,

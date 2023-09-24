@@ -70,9 +70,19 @@ pub struct BehaviourOptions {
 }
 
 impl Client {
-    /*
-    * Gets the current student's behaviour 
-    */
+    /// Gets the current student's behaviour 
+    /// This is using `chrono` for parsing the date.
+    /// 
+    /// Example:
+    /// ```ignore
+    /// // Gets behaviour from yesterday day to today.
+    /// client.get_behaviour(Some(
+    ///     BehaviourOptions {
+    ///         from: Some(chrono::Utc::now().checked_sub_days(chrono::Days(1)).date()),
+    ///         to: Some(chrono::Utc::now().date()),
+    ///     }
+    /// ));
+    /// ```
     pub async fn get_behaviour(
         &mut self,
         options: Option<BehaviourOptions>,
