@@ -1,5 +1,5 @@
 <div align="center">
-  <h2 align="center">Unoffical ClassCharts for Rust</h2>
+  <h2 align="center">Unoffical ClassCharts Library for Rust</h2>
   
   <p align="center">
     An unoffical Student ClassCharts API library, built with Rust.
@@ -20,7 +20,7 @@
 
 An API wrapper with *mostly* proper typings and tests for ClassCharts.
 
-## Using as a library
+## Usage
 ```bash
 cargo add classcharts
 ```
@@ -31,6 +31,13 @@ or in your `Cargo.toml`
 classcharts = "1.0.0"
 ```
 
+Wondering how to use the library? Use the [examples/basic.rs](https://github.com/veloii/classcharts-rs/blob/main/examples/basic.rs) as a reference.
+
+```bash
+git clone git@github.com:veloii/classcharts-rs.git
+cd classcharts-rs && cargo run --example basic
+```
+
 ## Developing
 
 ```bash
@@ -39,15 +46,6 @@ cd classcharts-rs
 ```
 ```bash
 cargo test
-```
-
-## Still confused?
-
-Try running our basic example code, you'll need a ClassCharts Code (supplied by your school).
-
-```bash
-git clone git@github.com:veloii/classcharts-rs.git
-cd classcharts-rs && cargo run --example basic
 ```
 
 ## Credits
