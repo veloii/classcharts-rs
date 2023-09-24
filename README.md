@@ -69,6 +69,8 @@ For a complete list of ClassCharts methods the `Client` exposes:
 
 They will all return a `Result<SuccessResponse, ErrorResponse>`.
 
+For more information, please look at [the docs](https://cc.veloi.me).
+
 ## Developing
 
 ```bash
